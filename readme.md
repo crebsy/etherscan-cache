@@ -20,6 +20,9 @@ keys = [
     "0NWN4412GB0X9KNH7XH4220UMB6F28CIIH",
     "UO6F66X8H2NS0ALAJNQIXQP6APO74O0UAU",
 ]
+[etherscan.rpc]
+chain_id = 1
+url = "http://localhost:8545"
 ```
 
 The keys will be used in a round robin manner. All requested sources and ABIs will be forever cached.
@@ -35,6 +38,7 @@ Front with something like Caddy if you need `https`.
 
 - `/{explorer}/api` forwards to upstream api
 - `/stats` cache stats (hits, misses, count, size)
+- `/{explorer}/constructor_args/{address}` returns the bytecode of the constructor args when the contract was deployed
 
 
 ## Docker
