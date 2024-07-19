@@ -23,14 +23,6 @@ app = FastAPI()
 cache = diskcache.Cache("cache", statistics=True, size_limit=10e9)
 config = toml.load(open("config.toml"))
 keys = {explorer: cycle(config[explorer]["keys"]) for explorer in config}
-CHAINS = {}
-RPC_URLS = {}
-for explorer in config:
-  if "rpc" not in config[explorer]:
-    continue
-  r = config[explorer]["rpc"]
-  CHAINS[explorer] = r["chain_id"]
-  RPC_URLS[r["chain_id"]] = r["url"]
 
 class ContractNotVerified(HTTPException):
     ...
@@ -168,15 +160,8 @@ def constructor_args(
   }
 
   rpc_url = None
-  chain_id = None
-  if explorer in CHAINS:
-      chain_id = CHAINS[explorer]
-      if chain_id not in RPC_URLS:
-          raise HTTPException(404, f"no rpc configured for explorer {explorer}")
-      if RPC_URLS[chain_id] == None:
-          raise HTTPException(404, f"no rpc configured for explorer {explorer}")
-
-      rpc_url = RPC_URLS[chain_id]
+  if "rpc_url" in config[explorer]:
+      rpc_url = config[explorer]["rpc_url"]
 
   if on_chain_lookup:
       args = do_on_chain_lookup(explorer, rpc_url, address, creation_tx_hash, bytecode)

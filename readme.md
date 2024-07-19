@@ -13,6 +13,8 @@ Create a `config.toml`, specify multiple upstreams with their corresponding API 
 ```toml
 [etherscan]
 url = "https://api.etherscan.io/api"
+# optional for on-chain lookups
+# rpc_url = "http://localhost:8545"
 keys = [
     "V53X2WJ37502KMJFXOZB30V0JHNMO11IEO",
     "C6CS0ELHNKQJOL5KUGJVI9UOX3PRECYOZW",
@@ -20,9 +22,6 @@ keys = [
     "0NWN4412GB0X9KNH7XH4220UMB6F28CIIH",
     "UO6F66X8H2NS0ALAJNQIXQP6APO74O0UAU",
 ]
-[etherscan.rpc]
-chain_id = 1
-url = "http://localhost:8545"
 ```
 
 The keys will be used in a round robin manner. All requested sources and ABIs will be forever cached.
